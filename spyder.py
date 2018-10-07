@@ -3,6 +3,7 @@ import requests
 import json
 from bs4 import BeautifulSoup
 import random
+import pickle
 from tqdm import tqdm
 
 HEADERS_LIST = [
@@ -78,3 +79,10 @@ def connections(handle):
 
 
 connections('respektor')
+
+for person in people:
+    for names in people[person]:
+        connections(names)
+        with open('people.pickle', 'wb') as handle:
+            pickle.dump(people, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
