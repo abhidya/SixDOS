@@ -53,30 +53,28 @@ def total_tweets(handle):
     return int(results[0].text.replace(',', ''))
 
 
-handle = r"respektor"
+def connections(handle):
+    ttweets = total_tweets(handle)
 
-ttweets = total_tweets(handle)
+    min_position, links, parsed_browser, url = get_tweets(handle)
 
-min_position, links, parsed_browser, url = get_tweets(handle)
+    with tqdm(total=345) as pbar:
+        while (True):
+            min_position1, links1, parsed_browser, url = get_tweets(handle, min_position)
+            links = links + links1
+            pbar.update(len(links1))
+            if (min_position1 == None):
+                break
+            min_position = min_position1
 
-with tqdm(total=345) as pbar:
-    while (True):
-        min_position1, links1, parsed_browser, url = get_tweets(handle, min_position)
-        links = links + links1
-        pbar.update(len(links1))
-        if (min_position1 == None):
-            break
-        min_position = min_position1
+    people[handle] = set()
 
+    for link in tqdm(links):
+        if handle in link:
+            get_people(link, handle)
 
-
-people[handle] = set()
-
-for link in tqdm(links):
-    if handle in link:
-        get_people(link, handle)
-
-print("Handle: ", handle, "Length: ", str(len(people[handle])), people[handle])
+    print("Handle: ", handle, "Length: ", str(len(people[handle])), people[handle])
 
 
 
+connections('respektor')
