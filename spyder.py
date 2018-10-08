@@ -5,7 +5,7 @@ from bs4 import BeautifulSoup
 import random
 from pymongo import MongoClient
 import updatestats
-
+import datetime
 from tqdm import tqdm
 
 HEADERS_LIST = [
@@ -47,6 +47,7 @@ def get_tweets(handle, max_position=None):
 def get_people(link, handle):
     url = "https://twitter.com" + link
     browser.open(url)
+
     updatestats.update_chars(len(str(browser.parsed)))
     results = browser.find_all("a", {
         "class": "account-group js-account-group js-action-profile js-user-profile-link js-nav"})
@@ -54,11 +55,12 @@ def get_people(link, handle):
         people[handle].add(str(link.get('href')).replace("/", ""))
 
 
-def total_tweets(handle):
-    url = "https://twitter.com/" + handle
-    browser.open(url)
-    results = browser.find_all("span", {"class": "ProfileNav-value"})
-    return int(results[0].text.replace(',', ''))
+#
+# def total_tweets(handle):
+#     url = "https://twitter.com/" + handle
+#     browser.open(url)
+#     results = browser.find_all("span", {"class": "ProfileNav-value"})
+#     return int(results[0].text.replace(',', ''))
 
 
 def connections(handle):
@@ -66,7 +68,7 @@ def connections(handle):
 
     min_position, links, parsed_browser, url = get_tweets(handle)
 
-    with tqdm(total=345) as pbar:
+    with tqdm(10000) as pbar:
         while (True):
             min_position1, links1, parsed_browser, url = get_tweets(handle, min_position)
             links = links + links1
@@ -82,8 +84,11 @@ def connections(handle):
             get_people(link, handle)
 
     print("Handle: ", handle, "Length: ", str(len(people[handle])), people[handle])
+    t = datetime.datetime.now()
+    # t = datetime.datetime(year, month, day)
+    s = t.strftime('%Y-%m-%d %H:%M:%S.%f')
 
-    result = {"_id": handle, "Length": str(len(people[handle])), "Connections": people[handle]}
+    result = {"_id": handle, "Length": str(len(people[handle])), "Connections": people[handle], "date": s[:-3]}
     client = MongoClient('mongodb://localhost:27017/')
     db = client['sixdos']
     update = db.data.insert_one(result)
@@ -95,5 +100,6 @@ connections('respektor')
 for person in people:
     for names in people[person]:
         connections(names)
+        updatestats.update_last(names)
         with open('people.pickle', 'wb') as handle:
             pickle.dump(people, handle, protocol=pickle.HIGHEST_PROTOCOL)

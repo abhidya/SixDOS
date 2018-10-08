@@ -22,7 +22,15 @@ def update_tweets(tweets_size):
     client = MongoClient('mongodb://localhost:27017/')
     db = client['sixdos']
     result = db.spyder.find_one({'_id': "MBhidya"})
-    result['TotalTweets'] = char_size + result['TotalTweets']
+    result['TotalTweets'] = tweets_size + result['TotalTweets']
+    update = db.spyder.update({'_id': "MBhidya"}, {"$set": result}, upsert=True)
+    return update
+
+def update_last(name):
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client['sixdos']
+    result = db.spyder.find_one({'_id': "MBhidya"})
+    result['LastPerson'] = name
     update = db.spyder.update({'_id': "MBhidya"}, {"$set": result}, upsert=True)
     return update
 
