@@ -8,13 +8,6 @@ import updatestats
 
 from tqdm import tqdm
 
-
-
-client =  MongoClient('mongodb://localhost:27017/')
-db = client['sixdos']
-
-
-
 HEADERS_LIST = [
     'Mozilla/5.0 (Windows; U; Windows NT 6.1; x64; fr; rv:1.9.2.13) Gecko/20101203 Firebird/3.6.13',
     'Mozilla/5.0 (compatible, MSIE 11, Windows NT 6.3; Trident/7.0; rv:11.0) like Gecko',
@@ -26,8 +19,7 @@ HEADERS_LIST = [
 session = requests.Session()
 browser = RoboBrowser(session=session, user_agent=random.choice(HEADERS_LIST), parser="lxml")
 
-# print(updatestats.initialize())
-
+print(updatestats.initialize())
 
 
 people = {}
@@ -91,7 +83,13 @@ def connections(handle):
 
     print("Handle: ", handle, "Length: ", str(len(people[handle])), people[handle])
 
+    result = {"_id": handle, "Length": str(len(people[handle])), "Connections": people[handle]}
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client['sixdos']
+    update = db.data.insert_one(result)
+    return update
 
+#
 # connections('respektor')
 #
 # for person in people:
