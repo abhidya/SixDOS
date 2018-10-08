@@ -19,7 +19,7 @@ HEADERS_LIST = [
 session = requests.Session()
 browser = RoboBrowser(session=session, user_agent=random.choice(HEADERS_LIST), parser="lxml")
 
-print(updatestats.initialize())
+# print(updatestats.initialize())
 
 
 people = {}
@@ -89,11 +89,11 @@ def connections(handle):
     update = db.data.insert_one(result)
     return update
 
-#
-# connections('respektor')
-#
-# for person in people:
-#     for names in people[person]:
-#         connections(names)
-#         with open('people.pickle', 'wb') as handle:
-#             pickle.dump(people, handle, protocol=pickle.HIGHEST_PROTOCOL)
+
+connections('respektor')
+
+for person in people:
+    for names in people[person]:
+        connections(names)
+        with open('people.pickle', 'wb') as handle:
+            pickle.dump(people, handle, protocol=pickle.HIGHEST_PROTOCOL)
