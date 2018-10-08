@@ -142,87 +142,105 @@
         document.getElementById('fade').style.display = 'none';
     }
 
+    function loadlink() {
 
-    $.ajax({
-        type: 'Get',
-        url: '/spyder/visualization',
-        dataType: 'json',
-        beforeSend: function () {
-            openModal();
-        },
-        success: function (data) {
-            console.log('Submission was successful.');
-            console.log(data);
-            $("#total_num_tweets").text(data.TotalTweets);
-            $("#total_time").text(data.startTime);
-            $("#total_chars").text(data.TotalChars);
-            $("#last_proccessed").text("@" + data.LastPerson);
+        $.ajax({
+            type: 'Get',
+            url: '/spyder/visualization',
+            dataType: 'json',
+            beforeSend: function () {
+                // openModal();
+            },
+            success: function (data) {
+                console.log('Submission was successful.');
+                console.log(data);
+                $("#total_num_tweets").text(data.TotalTweets);
+                $("#total_time").text(data.startTime);
+                $("#total_chars").text(data.TotalChars);
+                $("#last_proccessed").text("@" + data.LastPerson);
 
-        },
+            },
 
-        complete: function (data) {
-            closeModal();
+            complete: function (data) {
+                // closeModal();
 
-        },
-        error: function (data) {
-            console.log('An error occurred.');
-            console.log(data);
-        },
-    });
-
-
-    $.ajax({
-        type: 'Get',
-        url: '/visualization',
-        dataType: 'json',
-        beforeSend: function () {
-            openModal();
-        },
-        success: function (data) {
-            console.log('Submission was successful.');
-            console.log(data);
-            var project = projectsJson;
-            var dateFormat = d3.time.format("%Y-%d-%m %H:%M:%S.%L");
-            project.forEach(function (d) {
-                d["date"] = dateFormat.parse(d["date"]);
-            });
-
-            //Calculate metrics
-            var numProjectsByDate = dateDim.group();
-
-            var minDate = dateDim.bottom(1)[0]["date"];
-            var maxDate = dateDim.top(1)[0]["date"];
-
-            //Charts
-            var timeChart = dc.barChart("#time-chart");
-
-            timeChart
-                .width(600)
-                .height(160)
-                .margins({top: 10, right: 50, bottom: 30, left: 50})
-                .dimension(dateDim)
-                .group(numProjectsByDate)
-                .transitionDuration(500)
-                .x(d3.time.scale().domain([minDate, maxDate]))
-                .elasticY(true)
-                .xAxisLabel("Year")
-                .yAxis().ticks(4);
+            },
+            error: function (data) {
+                console.log('An error occurred.');
+                console.log(data);
+            },
+        });
 
 
-            dc.renderAll();
+        $.ajax({
+            type: 'Get',
+            url: '/visualization',
+            dataType: 'json',
+            beforeSend: function () {
+                // openModal();
+            },
+            success: function (data) {
+                console.log('Submission was successful.');
+                console.log(data);
+                var project = data;
+                var dateFormat = d3.time.format("%Y-%d-%m %H:%M:%S.%L");
+                project.forEach(function (d) {
+                    d["date"] = dateFormat.parse(d["date"]);
+                });
+
+                //Create a Crossfilter instance
+                var ndx = crossfilter(project);
+
+                //Define Dimensions
+                var dateDim = ndx.dimension(function (d) {
+                    return d["date"];
+                });
 
 
-        },
+                //Calculate metrics
+                var numProjectsByDate = dateDim.group();
 
-        complete: function (data) {
-            closeModal();
+                var minDate = dateDim.bottom(1)[0]["date"];
+                var maxDate = dateDim.top(1)[0]["date"];
 
-        },
-        error: function (data) {
-            console.log('An error occurred.');
-            console.log(data);
-        },
-    });
+                //Charts
+                var timeChart = dc.barChart("#time-chart");
+
+                timeChart
+                    .width(600)
+                    .height(160)
+                    .margins({top: 10, right: 50, bottom: 30, left: 50})
+                    .dimension(dateDim)
+                    .group(numProjectsByDate)
+                    .transitionDuration(500)
+                    .x(d3.time.scale().domain([minDate, maxDate]))
+                    .elasticY(true)
+                    .xAxisLabel("Year")
+                    .yAxis().ticks(4);
+
+
+                dc.renderAll();
+
+
+            },
+
+            complete: function (data) {
+                // closeModal();
+
+            },
+            error: function (data) {
+                console.log('An error occurred.');
+                console.log(data);
+            },
+        });
+
+    }
+
+    loadlink()
+
+    setInterval(function () {
+        loadlink() // this will run after every 5 seconds
+    }, 5000);
 
 
 </script>

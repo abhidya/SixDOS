@@ -20,7 +20,7 @@ session = requests.Session()
 browser = RoboBrowser(session=session, user_agent=random.choice(HEADERS_LIST), parser="lxml")
 
 # print(updatestats.initialize())
-
+# input("JJ")
 
 people = {}
 
@@ -88,18 +88,18 @@ def connections(handle):
     # t = datetime.datetime(year, month, day)
     s = t.strftime('%Y-%m-%d %H:%M:%S.%f')
 
-    result = {"_id": handle, "Length": str(len(people[handle])), "Connections": people[handle], "date": s[:-3]}
+    result = {"_id": handle, "Length": str(len(people[handle])), "Connections": str(people[handle]), "date": s[:-3]}
     client = MongoClient('mongodb://localhost:27017/')
     db = client['sixdos']
     update = db.data.insert_one(result)
     return update
 
 
+updatestats.update_last('respektor')
+
 connections('respektor')
 
 for person in people:
     for names in people[person]:
-        connections(names)
         updatestats.update_last(names)
-        with open('people.pickle', 'wb') as handle:
-            pickle.dump(people, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        connections(names)

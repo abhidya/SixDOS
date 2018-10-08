@@ -33,7 +33,7 @@ def data_visualization():
     json_projects = []
     for project in projects:
         json_projects.append(project)
-        print(project)
+        # print(project)
     json_projects = json.dumps(json_projects, indent=4, sort_keys=True, default=str)
     return json_projects, 200
 
@@ -44,7 +44,7 @@ def spyder_visualization():
     project['startTime'] = updatestats.time()
 
     json_projects = json.dumps(project, indent=4, sort_keys=True, default=str)
-    print(json_projects)
+    # print(json_projects)
     return json_projects, 200
 
 
