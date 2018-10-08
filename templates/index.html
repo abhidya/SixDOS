@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <title>Data Visualization</title>
+    <link rel="stylesheet" href="/static/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/lib/css/keen-dashboards.css">
+</head>
+
+<body class="application">
+<a href="/">Home</a>
+<a href="example.html">Example Distribution</a>
+<a href="custom.html">New Distribution</a>
+<a href="data.html">Visualize Data</a>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="..">Microbiology Malaria</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="row">
+
+                <!-- Time Chart -->
+                <div class="col-sm-12">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Entry Collection Time Frame
+                        </div>
+                        <div class="chart-stage">
+                            <div id="time-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Time Chart -->
+
+                <!-- Species Pie -->
+                <div class="col-sm-6">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Species
+                        </div>
+                        <div class="chart-stage">
+                            <div id="resource-type-row-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Species Pie -->
+
+                <!-- Location Pie -->
+                <div class="col-sm-6">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Location Area
+                        </div>
+                        <div class="chart-stage">
+                            <div id="poverty-level-row-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Location Pie -->
+
+            </div>
+        </div>
+
+        <!--&lt;!&ndash; Map &ndash;&gt;-->
+        <!--<div class="col-sm-6">-->
+        <!--<div class="chart-wrapper">-->
+        <!--<div class="chart-title">-->
+        <!--Distribution of Donations-->
+        <!--</div>-->
+        <!--<div class="chart-stage">-->
+        <!--<div id="us-chart"></div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--</div>-->
+        <!--&lt;!&ndash; Map &ndash;&gt;-->
+
+        <!-- Metric 1 -->
+        <div class="col-sm-3">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Total Number of Donations
+                </div>
+                <div class="chart-stage">
+                    <div id="number-projects-nd"></div>
+                </div>
+            </div>
+        </div>
+        <!-- Metric 1 -->
+
+
+        <!-- Metric 2 -->
+
+    </div>
+
+</div>
+
+<hr>
+
+</div>
+
+<script src="/static/lib/js/jquery.min.js"></script>
+<script src="/static/lib/js/bootstrap.min.js"></script>
+<script src="/static/lib/js/holder.js"></script>
+<script src="/static/lib/js/d3.js"></script>
+<script src="/static/lib/js/dc.js"></script>
+<script src="/static/lib/js/crossfilter.js"></script>
+<script src="/static/lib/js/queue.js"></script>
+<script>
+    Holder.add_theme("white", {background: "#fff", foreground: "#a7a7a7", size: 10});
+</script>
+
+<script src="/static/js/visualize_graphs.js"></script>
+
+</body>
+</html>

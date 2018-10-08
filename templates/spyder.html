@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+
+
+<head>
+    <title>Spyder's Stats</title>
+    <link rel="stylesheet" href="/static/css/style.css">
+
+
+    <link rel="stylesheet" href="/static/lib/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/lib/css/keen-dashboards.css">
+</head>
+
+<body class="application">
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="..">Sypder's Stats</a>
+        </div>
+    </div>
+</div>
+
+<div class="container-fluid">
+
+    <div class="row">
+
+        <div class="col-sm-6">
+            <div class="row">
+
+                <!-- Time Chart -->
+                <div class="col-sm-12">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Entry Collection Time Frame
+                        </div>
+                        <div class="chart-stage">
+                            <div id="time-chart"></div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Time Chart -->
+
+                <!-- Species Pie -->
+                <div class="col-sm-6">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Last Processed Twitter Handle
+                        </div>
+                        <div class="chart-stage">
+                            <h1 id="last_proccessed">
+                            </h1>
+
+                        </div>
+                    </div>
+                </div>
+                <!-- Species Pie -->
+
+                <!-- Location Pie -->
+                <div class="col-sm-6">
+                    <div class="chart-wrapper">
+                        <div class="chart-title">
+                            Total Chars Processed
+                        </div>
+                        <div class="chart-stage">
+                            <h1 id="total_chars"></h1>
+                        </div>
+                    </div>
+                </div>
+                <!-- Location Pie -->
+
+            </div>
+        </div>
+
+        <!-- Map -->
+        <div class="col-sm-6">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Time Sypder Bot has run
+                </div>
+                <div class="chart-stage">
+                    <h1 id="total_time"></h1>
+                </div>
+            </div>
+        </div>
+        <!-- Map -->
+
+        <!-- Metric 1 -->
+        <div class="col-sm-3">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Total Number of Tweets
+                </div>
+                <div class="chart-stage">
+                    <h1 id="total_num_tweets"></h1>
+                </div>
+            </div>
+        </div>
+        <!-- Metric 1 -->
+
+
+        <!-- Metric 2 -->
+
+    </div>
+
+</div>
+
+<hr>
+
+</div>
+<div id="fade">
+</div>
+
+<div id="modal">
+    <img id="loader" src="/static/images/loading.gif"/>
+</div>
+
+
+</body>
+
+<script src="/static/lib/js/jquery.min.js"></script>
+<script src="/static/lib/js/crossfilter.js"></script>
+<script src="/static/lib/js/queue.js"></script>
+<script src="/static/lib/js/d3.js"></script>
+<script src="/static/lib/js/dc.js"></script>
+<script src="/static/lib/js/bootstrap.min.js"></script>
+<script src="/static/lib/js/holder.js"></script>
+<script>
+    Holder.add_theme("white", {background: "#fff", foreground: "#a7a7a7", size: 10});
+</script>
+
+<!--<script src="/static/js/updatepage.js"></script>-->
+
+<script>
+    function openModal() {
+        document.getElementById('modal').style.display = 'block';
+        document.getElementById('fade').style.display = 'block';
+    }
+
+    function closeModal() {
+        document.getElementById('modal').style.display = 'none';
+        document.getElementById('fade').style.display = 'none';
+    }
+
+    $.ajax({
+        type: 'Get',
+        url: '/spyder/visualization',
+        dataType: 'json',
+        beforeSend: function () {
+            openModal();
+        },
+        success: function (data) {
+            console.log('Submission was successful.');
+            console.log(data);
+            $("#total_num_tweets").text(data.TotalTweets);
+            $("#total_time").text(data.startTime);
+            $("#total_chars").text(data.TotalChars);
+            $("#last_proccessed").text("@" + data.LastPerson);
+
+        },
+
+        complete: function (data) {
+            closeModal();
+
+        },
+        error: function (data) {
+            console.log('An error occurred.');
+            console.log(data);
+        },
+    });
+
+</script>
+
+
+</html>
+

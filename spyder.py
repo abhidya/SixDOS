@@ -3,8 +3,17 @@ import requests
 import json
 from bs4 import BeautifulSoup
 import random
-import pickle
+from pymongo import MongoClient
+import updatestats
+
 from tqdm import tqdm
+
+
+
+client =  MongoClient('mongodb://localhost:27017/')
+db = client['sixdos']
+
+
 
 HEADERS_LIST = [
     'Mozilla/5.0 (Windows; U; Windows NT 6.1; x64; fr; rv:1.9.2.13) Gecko/20101203 Firebird/3.6.13',
@@ -16,6 +25,10 @@ HEADERS_LIST = [
 
 session = requests.Session()
 browser = RoboBrowser(session=session, user_agent=random.choice(HEADERS_LIST), parser="lxml")
+
+# print(updatestats.initialize())
+
+
 
 people = {}
 
@@ -35,12 +48,14 @@ def get_tweets(handle, max_position=None):
     for link in soup.find_all('a'):
         if str("/" + handle + "/status/") in str(link):
             links.append(link.get('href'))
+    updatestats.update_tweets(len(links))
     return min_position, links, result['items_html'], browser.url
 
 
 def get_people(link, handle):
     url = "https://twitter.com" + link
     browser.open(url)
+    updatestats.update_chars(len(str(browser.parsed)))
     results = browser.find_all("a", {
         "class": "account-group js-account-group js-action-profile js-user-profile-link js-nav"})
     for link in results:
@@ -55,7 +70,7 @@ def total_tweets(handle):
 
 
 def connections(handle):
-    ttweets = total_tweets(handle)
+    # ttweets = total_tweets(handle)
 
     min_position, links, parsed_browser, url = get_tweets(handle)
 
@@ -77,12 +92,10 @@ def connections(handle):
     print("Handle: ", handle, "Length: ", str(len(people[handle])), people[handle])
 
 
-
-connections('respektor')
-
-for person in people:
-    for names in people[person]:
-        connections(names)
-        with open('people.pickle', 'wb') as handle:
-            pickle.dump(people, handle, protocol=pickle.HIGHEST_PROTOCOL)
-
+# connections('respektor')
+#
+# for person in people:
+#     for names in people[person]:
+#         connections(names)
+#         with open('people.pickle', 'wb') as handle:
+#             pickle.dump(people, handle, protocol=pickle.HIGHEST_PROTOCOL)
