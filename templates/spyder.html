@@ -32,7 +32,7 @@
                 <div class="col-sm-12">
                     <div class="chart-wrapper">
                         <div class="chart-title">
-                            Entry Collection Time Frame
+                            Data Collection Time Frame
                         </div>
                         <div class="chart-stage">
                             <div id="time-chart"></div>
@@ -45,7 +45,7 @@
                 <div class="col-sm-6">
                     <div class="chart-wrapper">
                         <div class="chart-title">
-                            Last Processed Twitter Handle
+                            Currently Processing
                         </div>
                         <div class="chart-stage">
                             <h1 id="last_proccessed">
@@ -142,34 +142,48 @@
         document.getElementById('fade').style.display = 'none';
     }
 
+    var firsttime = true; //bool
+
+
     function loadlink() {
 
         $.ajax({
-            type: 'Get',
-            url: '/spyder/visualization',
-            dataType: 'json',
-            beforeSend: function () {
-                // openModal();
-            },
-            success: function (data) {
-                console.log('Submission was successful.');
-                console.log(data);
-                $("#total_num_tweets").text(data.TotalTweets);
-                $("#total_time").text(data.startTime);
-                $("#total_chars").text(data.TotalChars);
-                $("#last_proccessed").text("@" + data.LastPerson);
+                type: 'Get',
+                url: '/spyder/visualization',
+                dataType: 'json',
+                beforeSend: function () {
+                    if (firsttime) {
+                        openModal();
+                    }
+                },
+                success: function (data) {
+                    console.log('Submission was successful.');
+                    console.log(data);
+                    $("#total_num_tweets").text(data.TotalTweets);
+                    $("#total_time").text(data.startTime);
+                    $("#total_chars").text(data.TotalChars);
+                    $("#last_proccessed").text("@" + data.LastPerson);
 
-            },
+                },
 
-            complete: function (data) {
-                // closeModal();
+                complete: function (data) {
+                    if (firsttime) {
+                        closeModal();
+                        firsttime = false;
+                    }
 
-            },
-            error: function (data) {
-                console.log('An error occurred.');
-                console.log(data);
-            },
-        });
+                },
+                error:
+
+                    function (data) {
+                        console.log('An error occurred.');
+                        console.log(data);
+                    }
+
+                ,
+            }
+        )
+        ;
 
 
         $.ajax({
