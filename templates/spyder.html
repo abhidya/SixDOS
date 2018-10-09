@@ -96,6 +96,18 @@
                 </div>
             </div>
         </div>
+
+        <!-- Metric 1 -->
+        <div class="col-sm-3">
+            <div class="chart-wrapper">
+                <div class="chart-title">
+                    Total Collected Twitter Users
+                </div>
+                <div class="chart-stage">
+                    <h1 id="TotalUsers"></h1>
+                </div>
+            </div>
+        </div>
         <!-- Metric 1 -->
 
 
@@ -132,6 +144,11 @@
 <!--<script src="/static/js/updatepage.js"></script>-->
 
 <script>
+
+    const numberWithCommas = (x) => {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
+
     function openModal() {
         document.getElementById('modal').style.display = 'block';
         document.getElementById('fade').style.display = 'block';
@@ -159,10 +176,11 @@
                 success: function (data) {
                     console.log('Submission was successful.');
                     console.log(data);
-                    $("#total_num_tweets").text(data.TotalTweets);
+                    $("#total_num_tweets").text(numberWithCommas(data.TotalTweets));
                     $("#total_time").text(data.startTime);
-                    $("#total_chars").text(data.TotalChars);
+                    $("#total_chars").text(numberWithCommas(data.TotalChars));
                     $("#last_proccessed").text("@" + data.LastPerson);
+                    $("#TotalUsers").text(data.TotalUsers);
 
                 },
 

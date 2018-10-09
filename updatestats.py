@@ -5,8 +5,7 @@ import datetime
 def days_hours_minutes(td):
     client = MongoClient('mongodb://localhost:27017/')
     db = client['sixdos']
-    return ("Days " + str(td.days) + " Hours " + str(td.seconds // 3600) + " Minutes " + str(
-        (td.seconds // 60) % 60))
+    return (str(td.days) + " Days " + str(td.seconds // 3600) + " Hours " + str((td.seconds // 60) % 60) + " Minutes ")
 
 
 def update_chars(char_size):
@@ -25,6 +24,7 @@ def update_tweets(tweets_size):
     result['TotalTweets'] = tweets_size + result['TotalTweets']
     update = db.spyder.update({'_id': "MBhidya"}, {"$set": result}, upsert=True)
     return update
+
 
 def update_last(name):
     client = MongoClient('mongodb://localhost:27017/')
@@ -49,3 +49,12 @@ def initialize():
     update = db.spyder.update({'_id': "MBhidya"}, {"$set": post}, upsert=True)
     return update
 
+
+def updatetotalusers():
+    client = MongoClient('mongodb://localhost:27017/')
+    db = client['sixdos']
+    FIE = {'_id': True}
+    result = db.spyder.find_one({'_id': "MBhidya"})
+    result['TotalUsers'] = db.data.find(projection=FIE).count()
+    update = db.spyder.update({'_id': "MBhidya"}, {"$set": result}, upsert=True)
+    return update

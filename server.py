@@ -14,7 +14,7 @@ mongo = PyMongo(app)
 thread = None
 thread_lock = Lock()
 
-FIELDS = {'location': True, 'species': True, 'date': True}
+FIELDS = {'date': True}
 
 
 @app.route('/')
