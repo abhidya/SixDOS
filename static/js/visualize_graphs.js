@@ -1,5 +1,5 @@
 queue()
-    .defer(d3.json, "http://localhost:5000/data/visualization")
+    .defer(d3.json, "/data/visualization")
     .await(makeGraphs);
 
 function makeGraphs(error, projectsJson, statesJson) {

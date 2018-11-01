@@ -6,3 +6,4 @@ requests
 robobrowser
 gunicorn==19.7.1
 flask_pymongo
+lxml
