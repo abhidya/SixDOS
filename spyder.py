@@ -72,7 +72,7 @@ def get_people(link, handle):
 def connections(handle):
     session = requests.Session()
     browser = RoboBrowser(session=session, user_agent=random.choice(HEADERS_LIST), parser="lxml")
-    client = MongoClient('mongodb://localhost:27017/')
+    client = MongoClient("mongodb://root:PhMb1okSjv6w@35.185.118.72:27017/")
     db = client['sixdos']
     # ttweets = total_tweets(handle)
 
@@ -106,11 +106,12 @@ def connections(handle):
         people_list = []
         return update
 
+updatestats.initialize()
 
 updatestats.update_last('respektor')
 connections('respektor')
 
-client = MongoClient('mongodb://localhost:27017/')
+client = MongoClient("mongodb://root:PhMb1okSjv6w@35.185.118.72:27017/")
 db = client['sixdos']
 documents = db.data.find()
 for document in documents:

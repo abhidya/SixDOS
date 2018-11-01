@@ -3,13 +3,14 @@ import json
 from threading import Lock
 import updatestats
 from flask import Flask, render_template
+# import subprocess
 from flask_pymongo import PyMongo
 
 async_mode = None
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret!'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/sixdos'
+app.config['MONGO_URI'] = "mongodb://root:PhMb1okSjv6w@35.185.118.72:27017/sixdos"
 mongo = PyMongo(app)
 thread = None
 thread_lock = Lock()
@@ -49,4 +50,5 @@ def spyder_visualization():
 
 
 if __name__ == '__main__':
+
     app.run(debug=True, host='0.0.0.0')

@@ -5,119 +5,136 @@
 <head>
     <title>SiXDos</title>
     <link rel="stylesheet" href="/static/lib/css/bootstrap.min.css">
-    <link rel="stylesheet" href="/static/lib/css/keen-dashboards.css">
-</head>
+    <!--<link rel="stylesheet" href="/static/lib/css/keen-dashboards.css">-->
 
-<body class="application">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <style>
+        body, html {
+            height: 100%;
+            margin: 0;
+            font: 400 15px/1.8 "Lato", sans-serif;
+            color: #777;
+        }
+
+        .bgimg-1, .bgimg-2, .bgimg-3 {
+            position: relative;
+            opacity: 0.65;
+            background-attachment: fixed;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-size: cover;
+
+        }
+
+        .bgimg-1 {
+            background-image: url("static/images/codebg.jpg");
+            min-height: 100%;
+        }
+
+        .bgimg-2 {
+            background-image: url("static/images/robospiderbg.jpg");
+            min-height: 400px;
+        }
+
+        .bgimg-3 {
+            background-image: url("static/images/twitterbg.png");
+            min-height: 400px;
+        }
+
+        .caption {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            width: 100%;
+            text-align: center;
+            color: #000;
+        }
+
+        .caption span.border {
+            background-color: #111;
+            color: #fff;
+            padding: 18px;
+            font-size: 25px;
+            letter-spacing: 10px;
+        }
+
+        h3 {
+            letter-spacing: 5px;
+            text-transform: uppercase;
+            font: 20px "Lato", sans-serif;
+            color: #111;
+        }
+
+        /* Turn off parallax scrolling for tablets and phones */
+        @media only screen and (max-device-width: 1024px) {
+            .bgimg-1, .bgimg-2, .bgimg-3 {
+                background-attachment: scroll;
+            }
+        }
+    </style>
+</head>
+<body>
 <a href="/">Home</a>
 <a href="spyder.html">Spyder Stats!</a>
 
 <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="..">SiXDos</a>
+            <a class="navbar-brand" href="/">SiXDos</a>
+            <a class="navbar-brand" href="spyder.html">Stats</a>
         </div>
     </div>
 </div>
 
-<div class="container-fluid">
 
-    <div class="row">
-
-        <div class="col-sm-6">
-            <div class="row">
-
-                <!-- Time Chart -->
-                <div class="col-sm-12">
-                    <div class="chart-wrapper">
-                        <div class="chart-title">
-                            Entry Collection Time Frame
-                        </div>
-                        <div class="chart-stage">
-                            <div id="time-chart"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Time Chart -->
-
-                <!-- Species Pie -->
-                <div class="col-sm-6">
-                    <div class="chart-wrapper">
-                        <div class="chart-title">
-                            Species
-                        </div>
-                        <div class="chart-stage">
-                            <div id="resource-type-row-chart"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Species Pie -->
-
-                <!-- Location Pie -->
-                <div class="col-sm-6">
-                    <div class="chart-wrapper">
-                        <div class="chart-title">
-                            Location Area
-                        </div>
-                        <div class="chart-stage">
-                            <div id="poverty-level-row-chart"></div>
-                        </div>
-                    </div>
-                </div>
-                <!-- Location Pie -->
-
-            </div>
-        </div>
-
-        <!-- Map -->
-        <div class="col-sm-6">
-        <div class="chart-wrapper">
-        <div class="chart-title">
-        Distribution of Donations
-        </div>
-        <div class="chart-stage">
-        <div id="us-chart"></div>
-        </div>
-        </div>
-        </div>
-        <!-- Map -->
-
-        <!-- Metric 1 -->
-        <div class="col-sm-3">
-            <div class="chart-wrapper">
-                <div class="chart-title">
-                    Total Number of Donations
-                </div>
-                <div class="chart-stage">
-                    <div id="number-projects-nd"></div>
-                </div>
-            </div>
-        </div>
-        <!-- Metric 1 -->
-
-
-        <!-- Metric 2 -->
-
+<div class="bgimg-1">
+    <div class="caption">
+        <span class="border">
+            Six Degrees of Separation
+        </span>
     </div>
-
 </div>
 
-<hr>
+<div style="color: #777;background-color:white;text-align:center;padding:50px 80px;text-align: justify;">
+    <h3 style="text-align:center;">A live time experiment exploring the "Six Degrees of Separation" As my spider bot
+        crawls through Twitter</h3>
+    <p>"Six degrees of separation is the idea that all living things and everything else in the world are six or fewer
+        steps away from each other so that a chain of "a friend of a friend" statements can be made to connect any two
+        people in a maximum of six steps. It was originally set out by Frigyes Karinthy in 1929 and popularized in an
+        eponymous 1990 play written by John Guare. " From Wikipedia, the free encyclopedia</p>
+</div>
 
+<div class="bgimg-2">
+    <div class="caption">
+        <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">LESS HEIGHT</span>
+    </div>
+</div>
+
+<div style="position:relative;">
+    <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+        <p>Scroll up and down to really get the feeling of how Parallax Scrolling works.</p>
+    </div>
+</div>
+
+<div class="bgimg-3">
+    <div class="caption">
+        <span class="border" style="background-color:transparent;font-size:25px;color: #f7f7f7;">SCROLL UP</span>
+    </div>
+</div>
+
+<div style="position:relative;">
+    <div style="color:#ddd;background-color:#282E34;text-align:center;padding:50px 80px;text-align: justify;">
+        <p>Scroll up and down to really get the feeling of how Parallax Scrolling works.</p>
+    </div>
+</div>
+
+<div class="bgimg-1">
+    <div class="caption">
+        <span class="border">COOL!</span>
+    </div>
 </div>
 
 <script src="/static/lib/js/jquery.min.js"></script>
-<script src="/static/lib/js/bootstrap.min.js"></script>
-<!--<script src="/static/lib/js/holder.js"></script>-->
-<!--<script src="/static/lib/js/d3.js"></script>-->
-<!--<script src="/static/lib/js/dc.js"></script>-->
-<!--<script src="/static/lib/js/crossfilter.js"></script>-->
-<!--<script src="/static/lib/js/queue.js"></script>-->
-<!--<script>-->
-    <!--Holder.add_theme("white", {background: "#fff", foreground: "#a7a7a7", size: 10});-->
-<!--</script>-->
-
-<!--<script src="/static/js/visualize_graphs.js"></script>-->
 
 </body>
 </html>
