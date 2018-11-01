@@ -4,19 +4,13 @@ from threading import Lock
 import updatestats
 from flask import Flask, render_template
 # import subprocess
-from flask_pymongo import PyMongo
 from pymongo import MongoClient
 
 
 async_mode = None
 
 app = Flask(__name__)
-# app.config['SECRET_KEY'] = 'secret!'
-app.config['MONGO_URI'] = "mongodb://35.185.118.72:27017/sixdos"
-app.config['MONGO_USERNAME'] = 'root'
-app.config['MONGO_PASSWORD'] = 'PhMb1okSjv6w'
 
-mongo = PyMongo(app)
 thread = None
 thread_lock = Lock()
 
