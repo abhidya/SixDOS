@@ -7,3 +7,23 @@ Six degrees of separation.
 
 
 https://bookshelf-221213.appspot.com/spyder.html
+
+## Local run notes
+
+```sh
+python3 -m venv .venv
+source .venv/bin/activate
+pip install -r requirements.txt
+python server.py
+```
+
+MongoDB is configured through environment variables:
+
+```sh
+export SIXDOS_MONGO_URI="mongodb://localhost:27017/"
+export SIXDOS_MONGO_DB="sixdos"
+python server.py
+```
+
+The original Twitter crawling pieces use older Twitter web behavior and may need
+API/dependency updates before they can be run reliably.

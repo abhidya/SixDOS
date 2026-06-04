@@ -1,5 +1,6 @@
 #!/usr/bin/env python
 import json
+import os
 from threading import Lock
 import updatestats
 from flask import Flask, render_template
@@ -15,6 +16,13 @@ thread = None
 thread_lock = Lock()
 
 FIELDS = {'date': True}
+MONGO_URI = os.environ.get("SIXDOS_MONGO_URI", "mongodb://localhost:27017/")
+MONGO_DB = os.environ.get("SIXDOS_MONGO_DB", "sixdos")
+
+
+def get_db():
+    client = MongoClient(MONGO_URI)
+    return client[MONGO_DB]
 
 
 @app.route('/')
@@ -29,8 +37,7 @@ def spyder():
 
 @app.route('/visualization', methods=['get'])
 def data_visualization():
-    client = MongoClient("mongodb://root:PhMb1okSjv6w@35.185.118.72:27017/")
-    db = client['sixdos']
+    db = get_db()
     projects = db.data.find(projection=FIELDS)
     json_projects = []
     for project in projects:
@@ -44,8 +51,7 @@ def data_visualization():
 
 @app.route('/spyder/visualization', methods=['get'])
 def spyder_visualization():
-    client = MongoClient("mongodb://root:PhMb1okSjv6w@35.185.118.72:27017/")
-    db = client['sixdos']
+    db = get_db()
     project = db.spyder.find_one({'_id': "MBhidya"})
     project['startTime'] = updatestats.time()
 
