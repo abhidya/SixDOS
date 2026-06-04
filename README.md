@@ -22,8 +22,22 @@ MongoDB is configured through environment variables:
 ```sh
 export SIXDOS_MONGO_URI="mongodb://localhost:27017/"
 export SIXDOS_MONGO_DB="sixdos"
+export SIXDOS_USE_MONGO=1
 python server.py
 ```
 
 The original Twitter crawling pieces use older Twitter web behavior and may need
 API/dependency updates before they can be run reliably.
+
+## Offline demo path
+
+The Flask dashboard now imports without PyMongo and returns fixture data for
+`/visualization` and `/spyder/visualization` when MongoDB is unavailable:
+
+```sh
+python smoke_test.py
+```
+
+`/health` reports the current backend mode. The crawler/stat helper scripts now
+read MongoDB settings from `SIXDOS_MONGO_URI` and `SIXDOS_MONGO_DB` instead of
+hardcoded remote credentials.

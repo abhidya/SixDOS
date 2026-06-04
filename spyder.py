@@ -3,11 +3,16 @@ import requests
 import json
 from bs4 import BeautifulSoup
 import random
-from pymongo import MongoClient
 import updatestats
 import datetime
 from tqdm import tqdm
 import re
+import os
+
+try:
+    from pymongo import MongoClient
+except ImportError:
+    MongoClient = None
 
 HEADERS_LIST = [
     'Mozilla/5.0 (Windows; U; Windows NT 6.1; x64; fr; rv:1.9.2.13) Gecko/20101203 Firebird/3.6.13',
@@ -70,10 +75,13 @@ def get_people(link, handle):
 
 
 def connections(handle):
+    if MongoClient is None:
+        raise RuntimeError("pymongo is not installed")
+
     session = requests.Session()
     browser = RoboBrowser(session=session, user_agent=random.choice(HEADERS_LIST), parser="lxml")
-    client = MongoClient("mongodb://root:PhMb1okSjv6w@35.185.118.72:27017/")
-    db = client['sixdos']
+    client = MongoClient(os.environ.get("SIXDOS_MONGO_URI", "mongodb://localhost:27017/"))
+    db = client[os.environ.get("SIXDOS_MONGO_DB", "sixdos")]
     # ttweets = total_tweets(handle)
 
     if db.data.find({'_id': handle}).count() == 0:
@@ -106,19 +114,17 @@ def connections(handle):
         people_list = []
         return update
 
-updatestats.initialize()
+if __name__ == '__main__':
+    updatestats.initialize()
+    updatestats.update_last('respektor')
+    connections('respektor')
 
-updatestats.update_last('respektor')
-connections('respektor')
-
-client = MongoClient("mongodb://root:PhMb1okSjv6w@35.185.118.72:27017/")
-db = client['sixdos']
-documents = db.data.find()
-for document in documents:
-    quoted = re.compile("(?<=')[^']+(?=')")
-    for value in quoted.findall(document['Connections']):
-        if ',' not in value:
-            # print(value)
-            connections(value)
-            updatestats.updatetotalusers()
-
+    client = MongoClient(os.environ.get("SIXDOS_MONGO_URI", "mongodb://localhost:27017/"))
+    db = client[os.environ.get("SIXDOS_MONGO_DB", "sixdos")]
+    documents = db.data.find()
+    for document in documents:
+        quoted = re.compile("(?<=')[^']+(?=')")
+        for value in quoted.findall(document['Connections']):
+            if ',' not in value:
+                connections(value)
+                updatestats.updatetotalusers()
